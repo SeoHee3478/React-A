@@ -56,3 +56,66 @@ const Say = () => {
 {/* 단순히 onClick이라는 props를 전달하는 형태가 됨 */}
 <MyComponent onClick={someEvent} />
 ```
+
+## [4-2] 에제로 이벤트 핸들링 익히기
+```
+import {useState} from 'react';
+
+function App() {
+  // state
+  const [form, setForm] = useState({
+    username: '',
+    message: '',
+  });
+  const {username, message} = form;
+
+  // 이벤드 핸들러, 함수형태로 작성한다
+  const onChange = e => {
+    // 폼에 변경된 내용을 넣는다
+    const nextForm = {
+      ...form,
+      [e.target.name]: e.target.value
+    };
+    setForm(nextForm); // 변경된 내용을 setState
+  }
+  const onClick = () => {
+    alert(username + ' : ' + message);
+    // state 초기화
+    setForm({
+      username: '',
+      message: '',
+    });
+  };
+  const onKeyPress = e => {
+    // 엔터키 입력 감지
+    if (e.key === 'Enter') {
+      onClick();
+    }
+  };
+
+  return (
+    <div>
+      <h1>입력 이벤트 연습</h1>
+      <input
+        type='text'
+        name='username'
+        placeholder='유저이름'
+        value={username}
+        onChange={onChange}
+      />
+      <input
+        type='text'
+        name='message'
+        placeholder='메시지'
+        value={message}
+        onChange={onChange}
+        onKeyPress={onKeyPress}
+      />
+      <button onClick={onClick}>입력</button>
+    </div>
+  );
+};
+
+export default App;
+
+```
