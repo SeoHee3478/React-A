@@ -121,3 +121,4 @@ export default App;
 ```
 ### 실행결과
 <img src='/img/4-2.gif' width='800px'>
+<img src='/img/4-2(state).PNG' width='800px'>
