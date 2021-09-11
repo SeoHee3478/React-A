@@ -119,3 +119,5 @@ function App() {
 export default App;
 
 ```
+### 실행결과
+<img src='/img/4-2.gif' width='800px'>
