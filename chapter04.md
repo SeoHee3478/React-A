@@ -13,7 +13,7 @@
 
 대표적으로는 `onClick` `onChange` `onSubmit` 등을 예로 들 수 있겠네요
 
-### 이벤트를 사용할 때 주의 사항
+### 이벤트를 사용할시 주의 사항
 
 - 이벤트 이름은 카멜 표기법으로 작성합니다
 [ ( 카멜, 파스칼, 스네이크 코드 표기법 )](https://color-workroom.tistory.com/entry/%EC%B9%B4%EB%A9%9C-%ED%8C%8C%EC%8A%A4%EC%B9%BC-%EC%8A%A4%EB%84%A4%EC%9D%B4%ED%81%AC-%ED%91%9C%EA%B8%B0%EB%B2%95-camelCasePascalCasesnakecase)
@@ -73,8 +73,8 @@ function App() {
   const onChange = e => {
     // 폼에 변경된 내용을 넣는다
     const nextForm = {
-      ...form,
-      [e.target.name]: e.target.value
+      ...form, // 기존 폼 내용을 복사
+      [e.target.name]: e.target.value // target에 맞는 state에 값 추가(덮어쓰기)
     };
     setForm(nextForm); // 변경된 내용을 setState
   }
