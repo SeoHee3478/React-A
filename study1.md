@@ -36,7 +36,7 @@
 - 리액트는 `View`만 신경쓰는 라이브러리입니다
 
 ```
-보통 프레임워크는 각각 Model, View, Contorl을 뜻하는 MVC 패턴을 가지고 있지만 리액트는 오직 `View`만 관리허면 됩니다
+보통 프레임워크는 각각 Model, View, Contorl을 뜻하는 MVC 패턴을 가지고 있지만 리액트는 오직 `View`만 관리하면 됩니다
 ```
 
 - 컴포넌트란?
@@ -71,6 +71,7 @@ export default Home;
 렌더링 함수 발생 → HTML 마크업 → 실제 페이지의 DOM에 주입 → 페이지 렌더링 끝
 ```
 아래는 실제 리액트 프로젝트의 `index.js`에서 사용되는 render 함수입니다
+
 <img src='./img/study1_render.PNG' />
 
 ### 조화 과정
@@ -147,9 +148,7 @@ import someMoudle from 'modulePath'
 
 ### JSX
 
-```
-study1_jsx 이미지 넣기
-```
+<img src='./img/study1_jsx.PNG' />
 
 프로젝트를 실행하고 App.js 파일의 return 부분을 보면 HTML과 유사한 코드를 볼 수 있습니다
 
@@ -293,9 +292,7 @@ const App() => {
 }
 ```
 리액트 16버전부터는 class를 써도 정상적으로 작동은 되지만 다음과 같은 메시지가 발생하게됩니다
-```
-study1_className 이미지 넣기
-```
+<img src='./img/study1_className.PNG' />
 
 - 태그는 꼭 닫자
 
@@ -326,4 +323,224 @@ study1_className 이미지 넣기
 
 ### 클래스형 컴포넌트
 
+```
+import React, { Component } from 'react';
 
+class App extends Component {
+  render() {
+    const name = 'react';
+    return <div className='react'>{name}</div>
+  }
+}
+
+export default App;
+```
+클래스 컴포넌트의 경우 `state`와 `라이프사이클`을 사용할 수 있다는 것과 임의 메서드를 정의할 수 있다는 특징이 있습니다
+
+클래스형 컴포넌트의 경우 최근에는 잘 쓰지 않는 방식입니다 실제로 리액트 공식 문서에서는 함수형 컴포넌트를 권장하고 있고요
+
+[왜 리액트는 함수형 컴포넌트를 추천할까요](https://reactjs.org/docs/hooks-intro.html#gradual-adoption-strategy)
+
+### 함수형 컴포넌트
+
+함수형 컴포넌트의 장점
+- 클래스형 컴포넌트보다 선언하기가 편하다
+- 메모리 소스도 덜 사용한다
+- 빌드 후 배포시 결과물의 파일 크기가 더 작다
+
+단점
+- state와 라이프사이클 API 사용 불가능하다 (이부분은 Hooks로 해결 가능합니다)
+
+### 컴포넌트 생성하는법
+
+- src 폴더에 (ComponentName).js (주의! 컴포넌트명은 반드시 첫 글자는 대문자로 시작해야합니다)
+
+- 코드 작성
+ 
+```
+// 최신 버전의 리액트에서는 이 부분 생략 가능
+import React from 'react';
+
+const MyComponent = () => {
+  return <div>hello new Component!</div>
+};
+
+// 컴포넌트 이름과 일치시키기
+export default MyComponent;
+```
+
+Tip) 함수형 컴포넌트는 `function`으로 쓰는 방법과 `화살표 함수`를 쓰는 방법이 있습니다
+
+화살표 함수에 관한 설명은 [여기를 참고해주세요](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+
+### 작성한 컴포넌트를 불러오기
+
+```
+import React from 'react';
+import MyComponent from './MyComponent';
+
+const App = () => {
+  return <MyComponent />;
+};
+
+export default App;
+```
+
+### props
+
+#### `props`는 간단하게 부모 컴포넌트로부터 설정되어 넘어온 값입니다
+
+props는 읽기 전용으로만 사용 가능합니다 때문에 props를 바꾸려면 부모 컴포넌트에서 값을 바꿔줘야합니다
+
+```
+// App.js
+const App = () => {
+  {/* props로 name이라는 파라미터를 넘겨줌 */}
+  return <MyComponent name='React' />;
+};
+
+// MyComponent.js
+const MyComponent = props => {
+  {/* props를 받아와 표시한다 */}
+  return <div>hi my name is {props.name}</div>
+};
+```
+
+#### 기본 props 값을 `defaultProps`을 통해 설정 할 수 있습니다
+
+```
+const MyComponent = props => {
+  return <div>hi my name is {props.name}</div>
+};
+
+// 기본 props값
+MyComponent.defaultProps = {
+  name: 'default name'
+}
+```
+
+#### 태그 사이 내용을 보여주는 `children`
+
+컴포넌트 사이의 내용을 props를 `children`통해 보여줄 수 있습니다
+```
+const App = () => {
+  return <MyComponent>이게 바로 칠드런</MyComponent>;
+};
+
+// MyComponent
+const MyComponent = () => {
+  return <div>children 값은 {props.children}입니다!</div>;
+};
+```
+
+#### 비구조화 할당으로 props 다루기
+
+[비구조화 할당? : 객체에서 값을 추출하는 문법](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+
+props 값을 조회할 때마다 `props.` 키워드를 쓰는게 불편할 때가 있습니다
+
+이 키워드는 비구조화 할당 문법을 통해 간단하게 props를 다룰 수 있습니다
+
+```
+const MyComponent = props => {
+  // 비구조화 할당
+  const { name, children } = props;
+  return (
+    {/* props. 키워드 없이 쓸 수 있다 */}
+    <div>
+      hi my name is {name} <hr /> children is {children}
+    </div>
+  );
+};
+```
+
+#### propTypes를 통한 props 검증
+
+필수 props를 지정하거나 타입을 지정할 때 `propTypes`를 사용합니다
+
+```
+// propTypes 불러오기
+import PropTypes from 'prop-types';
+
+const MyComponent = props => {
+  return (...)
+};
+
+// PropTypes 지정
+MyComponent.propTypes = {
+  // name은 반드시 string 형태여야 한다
+  name: PropTypes.string
+  
+  // 특정 props 필수 지정
+  myAge: PropTypes.number.isRequired
+};
+```
+
+### state
+`state`는 컴포넌트 내부에서 바뀔 수 있는 값입니다
+
+함수형 컴포넌트 기준 state를 다루는 대표적인 방법으로 `useState`라는 Hooks가 있습니다
+
+```
+// useState를 사용하기 위해서는 해당 Hooks를 불러와야합니다
+import { useState } from 'react;
+
+const Say = () => {
+  // 첫번쨰 인자: state 값, 두번쨰 인자: state를 세팅해주는 세터함수
+  // useState 내부에는 초기값을 설정해줍니다
+  const [message, setMessage] = useState('');
+  
+  // 이벤트 핸들러
+  // 해당 이벤트 함수에 따라 message가 변하게된다
+  const onClickEnter = () => setMessage('안녕하세요!');
+  const onClickLeave = () => setMessage('안녕히 가세요!');
+  
+  // JSX
+  return (
+    <div>
+      <button onClick={onClickEvent}>입장</button>
+      <button onClick={onClickLeave}>퇴장</button>
+      <h1>{message></h1>
+    </div>
+  );
+};
+```
+
+#### state를 사용할 때 주의 사항
+
+state 값을 바꾸려면 `세터함수`를 사용해 값을 변경해야합니다
+
+```
+const [message, setMessage] = useState('hello world!');
+
+// 잘못된 state 값 변경
+message = 'hi react!'
+
+// 세터 함수를 사용해 state 변경
+setMessage('안녕하세요!');
+```
+
+#### 객체, 배열에서 값을 변경하려면 `사본`을 만들어 변경해야합니다
+
+사본을 만드는 방법은 자바스크립트 [ES6 문법](https://velog.io/@bu_du_dak/filter-map-spread) 을 사용해야합니다
+
+````
+// 객체의 값 업데이트
+const object = {a: 1, b: 2, c: 3};
+const nextObject = {...object, b: 5}; // object 사본을 spread 문법으로 복사 후 b값만 업데이트
+
+// 배열
+const arr = [
+  { id: 1, value: true },
+  { id: 2, value: true },
+  { id: 3, value: false },
+];
+
+let nextArr = arr.concat({id: 4}); // concat으로 배열 사본 만든 후 항목 추가
+
+nextArr.filter(item => item.id !== 2); // id가 2가 아닌 나머지를 반환 (즉, id가 2인 항목을 제거)
+
+// map을 통해 모든 nextArr 값(item)을 돌면서 item의 id가 1이라면 value를 false로 설정
+nextArr.map(item => (item.id === 1 ? {...item, value: false } : item);
+
+````
