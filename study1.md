@@ -524,6 +524,10 @@ setMessage('안녕하세요!');
 
 사본을 만드는 방법은 자바스크립트 [ES6 문법](https://velog.io/@bu_du_dak/filter-map-spread) 을 사용해야합니다
 
+특히, 아래 `map` `filter`, 추가로 `reduce` 등의 사용법은 꼭 숙지하길 추천합니다
+
+리액트에서 state를 다루면서 많이 사용할 것이고 최근 트랜드인 [함수형 프로그래밍](https://deveric.tistory.com/107) 에서 쓰는 대표적 함수이기 때문입니다
+
 ````
 // 객체의 값 업데이트
 const object = {a: 1, b: 2, c: 3};
