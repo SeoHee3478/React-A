@@ -128,7 +128,7 @@ yarn create react-app (project-name)
 ### 프로젝트 실행하기
 
 ```
-(prkject-name 폴더로 이동 후)
+(project-name 폴더로 이동 후)
 yarn start
 ```
 
