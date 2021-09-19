@@ -57,11 +57,15 @@ export default Greeting;
 ```
 
 1. `camelCase`
+
    저번주에서도 다뤘던 내용이지만 리액트에서는 이벤트 이름, 자바스크립트에 이미 존재하는 단어들을 카멜 케이스로 작성합니다.
+
 2. `{ }`
+
    기존 `HTML` 에서는 `" "` 에 자바스크립트 코드를 넣었지만 `리액트` 에서는 함수 형태의 객체를 전달합니다.
 
 💢 **주의사항** 💢
+
 `리액트` 에서는 `DOM` 요소에만 이벤트를 설정할 수 있습니다.
 
 ```javascript
@@ -173,7 +177,7 @@ const [inputs, setInputs] = useState({
 });
 ```
 
-이렇게 되면 inputs 이라는 배열에 `writer` 와 `message` 라는 `key` 를 가진 객체가 생성됩니다.
+이렇게 되면 inputs 에 `writer` 와 `message` 라는 `key` 를 가진 객체가 생성됩니다.
 `writer` 와 `message` 를 자유롭게 쓰기 위해선 `Destructing (비구조화 할당)` 이 유용하겠죠?
 
 ```javascript
@@ -207,13 +211,39 @@ const handleReset = () => {
 선행되어야 하는 자바스크립트 지식이 있습니다.
 
 1. `Spread`
+
    지난 주 발표내용에도 있었고 예빈님이 추가설명까지 해주셨기 때문에 자세한 내용은 생략합니다.
    [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) 혹은 [벨로퍼트님 자료](https://learnjs.vlpt.us/useful/07-spread-and-rest.html)를 참고해주세요!
-2. `Object`
-   [참고 링크](https://medium.com/@bretdoucette/understanding-this-setstate-name-value-a5ef7b4ea2b4)
 
-> 4장 다 끝내고 잘라했는데 자스 개념 공부하다보니 자야될 시간이 돼서 잡니다,,,
-> 추후 수정예정
+2. `Object`
+
+   객체 안에서 key 를 `[ ]` 로 감싸면 그 안에 넣은 레퍼런스가 가리키는 실제 값이 key 값으로 사용됩니다.
+   ~~이게 뭐라고 엄청 헷갈렸는데 쉽게 말하자면 변수(상수) 값을 객체의 key 로 쓰고 싶다~ 하면 쓰시면 되는겁니다!~~
+
+   ```javascript
+   const newKey = "name";
+   const object = { [newKey]: "kevin" };
+   // object = {name: 'kevin'}
+   ```
+
+다 아신다는 가정하에 `handleChange` 함수를 수정해보겠습니다.
+`event.target` 의 `name` 과 `value` 를 둘 다 사용해야하기에 `destructing` 을 이용하여 간단하게 지정해주었습니다.
+이제 `세터함수` 를 통해 `state 값` 을 변경해줘야합니다. 여기서 앞의 두 자바스크립트 지식을 써야 하는데요,
+우리는 객체를 업데이트 시켜야 하기 때문에 `spread operator` 를 사용하여야 하며 사본을 만들고 난 후 그 사본의 상태를 `세터함수` 를 통해 변경하게 되는 것입니다.
+
+```javascript
+const handleChange = (event) => {
+  const { name, value } = event.target;
+  setInputs({
+    ...inputs,
+    [name]: value,
+  });
+};
+```
+
+`inputs[name] = value` 가 안되는 이유는 리액트의 `불변성` 때문인데요, 기존 상태를 이런 식으로 직접 수정하게 되면 값이 바뀌어도 리렌더링이 되지 않습니다. 또한 추후에 컴포넌트 성능 최적화를 위해서는 이 불변성을 지켜줘야 합니다. 이 부분에 대해 더 알고 싶으시다면 [벨로퍼트님 블로그](https://velopert.com/3640)를 참고해주세요!
+
+<img src="https://user-images.githubusercontent.com/89551626/133938513-e54fcb79-d0a3-4b7d-9a5d-09f6933b9fe9.gif">
 
 <details>
 <summary>전체 코드 (클릭하면 볼 수 있음)</summary>
@@ -274,3 +304,5 @@ export default WriteMessage;
 
 </div>
 </details>
+
+---
