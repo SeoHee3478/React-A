@@ -27,10 +27,11 @@
 </html>
 ```
 
-기존의 `HTML` 에서 `DOM` 요소에 접근을 할 때는 위의 코드와 같이 `" "` 사이에 자바스크립트 코드를 넣거나 혹은 같은 맥락의 `addEventListener` 를 통해 이벤트 핸들링을 하곤 했습니다.
+기존의 `HTML` 에서 `DOM` 요소에 접근을 할 때는 위의 코드와 같이 `" "` 사이에 자바스크립트 코드를 넣거나  
+혹은 같은 맥락의 `addEventListener` 를 통해 이벤트 핸들링을 하곤 했습니다.  
 `리액트` 에서의 이벤트핸들링은 비슷하면서도 살짝 다른데요,, 밑의 코드를 보겠습니다!
 
-위의 `HTML` 코드와 다른 점을 느끼셨나요?
+위의 `HTML` 코드와 다른 점을 느끼셨나요?  
 크게 두 가지 다른 점을 느낄 수 있습니다.
 
 ```javascript
@@ -56,12 +57,10 @@ const Greeting = () => {
 export default Greeting;
 ```
 
-1. `camelCase`
-
+1. `camelCase`  
    저번주에서도 다뤘던 내용이지만 리액트에서는 이벤트 이름, 자바스크립트에 이미 존재하는 단어들을 카멜 케이스로 작성합니다.
 
-2. `{ }`
-
+2. `{ }`  
    기존 `HTML` 에서는 `" "` 에 자바스크립트 코드를 넣었지만 `리액트` 에서는 함수 형태의 객체를 전달합니다.
 
 💢 **주의사항** 💢
@@ -100,16 +99,16 @@ export default WriteMessage;
 
 <img src="https://user-images.githubusercontent.com/89551626/133533315-264d030a-7218-4b2b-af61-809a2aa64af0.gif">
 
-이런 식으로 `input` 값의 `value` 를 콘솔에 찍어볼 수 있습니다.
-`onChange` 의 파라미터인 `event` 객체는 `리액트` 의 `Systhetic Event` 로 우리가 기존에 알고 있던 네이티브 이벤트의 객체로 이루어져 있어 비슷하게 사용하면 됩니다.
-하지만 `Systhetic Event` 가 네이티브 이벤트와 다른 점은 `Event Polling` 인데요, 이벤트가 끝나고 나면 이벤트가 초기화되므로 정보를 참조할 수 없습니다.
+이런 식으로 `input` 값의 `value` 를 콘솔에 찍어볼 수 있습니다.  
+`onChange` 의 파라미터인 `event` 객체는 `리액트` 의 `Systhetic Event` 로 우리가 기존에 알고 있던 네이티브 이벤트의 객체로 이루어져 있어 비슷하게 사용하면 됩니다.  
+하지만 `Systhetic Event` 가 네이티브 이벤트와 다른 점은 `Event Polling` 인데요, 이벤트가 끝나고 나면 이벤트가 초기화되므로 정보를 참조할 수 없습니다.  
 `Event Polling` 의 해결방법과 `Synthetic Event` 에 대한 설명은 [이 곳](https://junukim.dev/articles/React_Synthetic_Event/)에서 추가로 확인할 수 있습니다.
 
 ### `state` 에 `input` 값 담기
 
-위의 코드에 `state` 를 이용하여 `value` 를 업데이트 시키고 이를 화면에 찍어보겠습니다.
-`state 값` 을 지난주에 배운 `세터함수` 를 활용하여 변경시킬 수 있습니다.
-`세터함수` 에 위에서 콘솔에 찍어봤던 `event.target.value` 를 넣어주면 되겠죠?
+위의 코드에 `state` 를 이용하여 `value` 를 업데이트 시키고 이를 화면에 찍어보겠습니다.  
+`state 값` 을 지난주에 배운 `세터함수` 를 활용하여 변경시킬 수 있습니다.  
+`세터함수` 에 위에서 콘솔에 찍어봤던 `event.target.value` 를 넣어주면 되겠죠?  
 이후 `input` 의 `value` 에 `state 값` 을 전달해주고 아무 태그나 이용하여 `state 값` 을 찍어봅시다.
 
 ```javascript
@@ -141,8 +140,8 @@ export default WriteMessage;
 
 ### 리셋 시키기
 
-버튼을 누르면 `input` 의 `value` 를 리셋시켜 보겠습니다.
-`세터함수` 를 이용하여 빈 문자열을 넣어주면 됩니다.
+버튼을 누르면 `input` 의 `value` 를 리셋시켜 보겠습니다.  
+`세터함수` 를 이용하여 빈 문자열을 넣어주면 됩니다.  
 반복되는 코드가 중복되는 부분은 생략하였습니다.
 
 ```javascript
@@ -166,7 +165,8 @@ const [writer, setWriter] = useState("");
 const [message, setMessage] = useState("");
 ```
 
-와 같이 `input` 의 개수만큼 `useState` 를 활용해도 되지만 `input` 의 개수가 많아진다면 위에서 사용한 `event` 객체를 활용하는 방법이 더 효율적일 것입니다.
+와 같이 `input` 의 개수만큼 `useState` 를 활용해도 되지만 `input` 의 개수가 많아진다면  
+위에서 사용한 `event` 객체를 활용하는 방법이 더 효율적일 것입니다.
 
 `state 값` 을 단일 값이 아닌 객체로 선언해봅시다.
 
@@ -178,6 +178,7 @@ const [inputs, setInputs] = useState({
 ```
 
 이렇게 되면 inputs 에 `writer` 와 `message` 라는 `key` 를 가진 객체가 생성됩니다.
+
 `writer` 와 `message` 를 자유롭게 쓰기 위해선 `Destructing (비구조화 할당)` 이 유용하겠죠?
 
 ```javascript
@@ -207,29 +208,26 @@ const handleReset = () => {
 />;
 ```
 
-이제 `handleChange` 함수만 수정해주면 되는데요,
-선행되어야 하는 자바스크립트 지식이 있습니다.
+이제 `handleChange` 함수만 수정해주면 되는데요, 선행되어야 하는 자바스크립트 지식이 있습니다.
 
-1. `Spread`
-
-   지난 주 발표내용에도 있었고 예빈님이 추가설명까지 해주셨기 때문에 자세한 내용은 생략합니다.
+1. `Spread`  
+   지난주 발표내용에도 있었고 예빈님이 추가설명까지 해주셨기 때문에 자세한 내용은 생략합니다.  
    [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) 혹은 [벨로퍼트님 자료](https://learnjs.vlpt.us/useful/07-spread-and-rest.html)를 참고해주세요!
 
-2. `Object`
-
-   객체 안에서 key 를 `[ ]` 로 감싸면 그 안에 넣은 레퍼런스가 가리키는 실제 값이 key 값으로 사용됩니다.
+2. `Object`  
+   객체 안에서 key 를 `[ ]` 로 감싸면 그 안에 넣은 레퍼런스가 가리키는 실제 값이 key 값으로 사용됩니다.  
    ~~이게 뭐라고 엄청 헷갈렸는데 쉽게 말하자면 변수(상수) 값을 객체의 key 로 쓰고 싶다~ 하면 쓰시면 되는겁니다!~~
-
    ```javascript
    const newKey = "name";
    const object = { [newKey]: "kevin" };
    // object = {name: 'kevin'}
    ```
 
-다 아신다는 가정하에 `handleChange` 함수를 수정해보겠습니다.
-`event.target` 의 `name` 과 `value` 를 둘 다 사용해야하기에 `destructing` 을 이용하여 간단하게 지정해주었습니다.
-이제 `세터함수` 를 통해 `state 값` 을 변경해줘야합니다. 여기서 앞의 두 자바스크립트 지식을 써야 하는데요,
-우리는 객체를 업데이트 시켜야 하기 때문에 `spread operator` 를 사용하여야 하며 사본을 만들고 난 후 그 사본의 상태를 `세터함수` 를 통해 변경하게 되는 것입니다.
+다 아신다는 가정하에 `handleChange` 함수를 수정해보겠습니다.  
+`event.target` 의 `name` 과 `value` 를 둘 다 사용해야하기에 `destructing` 을 이용하여 간단하게 지정해주었습니다.  
+이제 `세터함수` 를 통해 `state 값` 을 변경해줘야합니다. 여기서 앞의 두 자바스크립트 지식을 써야 하는데요,  
+우리는 객체를 업데이트 시켜야 하기 때문에 `spread operator` 를 사용하여야 하며  
+사본을 만들고 난 후 그 사본의 상태를 `세터함수` 를 통해 변경하게 되는 것입니다.
 
 ```javascript
 const handleChange = (event) => {
@@ -241,7 +239,10 @@ const handleChange = (event) => {
 };
 ```
 
-`inputs[name] = value` 가 안되는 이유는 리액트의 `불변성` 때문인데요, 기존 상태를 이런 식으로 직접 수정하게 되면 값이 바뀌어도 리렌더링이 되지 않습니다. 또한 추후에 컴포넌트 성능 최적화를 위해서는 이 불변성을 지켜줘야 합니다. 이 부분에 대해 더 알고 싶으시다면 [벨로퍼트님 블로그](https://velopert.com/3640)를 참고해주세요!
+`inputs[name] = value` 가 안되는 이유는 리액트의 `불변성` 때문인데요,  
+기존 상태를 이런 식으로 직접 수정하게 되면 값이 바뀌어도 리렌더링이 되지 않습니다.  
+또한 추후에 컴포넌트 성능 최적화를 위해서는 이 불변성을 지켜줘야 합니다.  
+이 부분에 대해 더 알고 싶으시다면 [벨로퍼트님 블로그](https://velopert.com/3640)를 참고해주세요!
 
 <img src="https://user-images.githubusercontent.com/89551626/133938513-e54fcb79-d0a3-4b7d-9a5d-09f6933b9fe9.gif">
 
@@ -311,7 +312,8 @@ export default WriteMessage;
 
 ### ref 는 언제 사용?
 
-`순수 자바스크립트` 를 사용 할 때 특정 DOM 을 선택해야 하는 상황에서는 `getElementById`, `querySelector` 와 같은 `DOM Selector 함수` 를 사용해서 `DOM` 을 선택합니다.
+`순수 자바스크립트` 를 사용 할 때 특정 DOM 을 선택해야 하는 상황에서는  
+`getElementById`, `querySelector` 와 같은 `DOM Selector 함수` 를 사용해서 `DOM` 을 선택합니다.
 
 `리액트` 에서도 가끔씩 `DOM` 을 **직접** 선택해야 하는 상황이 있을 수 있습니다.
 예를 들면
@@ -326,7 +328,7 @@ export default WriteMessage;
 
 ### ref 사용방법
 
-`ref` 를 사용하는 방법은 총 3가지 입니다.
+`ref` 를 사용하는 방법은 총 3가지 입니다.  
 원하는 방법을 골라서 사용하면 되지만 최근에는 함수형 컴포넌트와 함께 `hooks` 를 많이 쓰는 추세입니다.
 
 - **함수형 컴포넌트: `useRef`**
