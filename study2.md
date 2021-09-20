@@ -444,6 +444,11 @@ export default RefExample;
 
 <img src="https://user-images.githubusercontent.com/89551626/133944321-140cc920-9492-40ee-a1de-29d31a5da173.png">
 
+> 💢 설명 전 짚고 넘어가야할 것 💢  
+> 교재 예제는 모두 클래스형 컴포넌트에서 콜백함수로 `ref` 를 전달합니다.  
+> 이를 모두 함수형 컴포넌트로 바꾸는 과정에서 `useRef` 외에 `forwardRef`, `useImperativeHandle` 을 사용합니다.  
+> `Hook` 에 대한 자세한 내용은 8장에서 다루게 됩니다. 여기서는 쓰인 `Hook API` 만 간단하게 설명하겠습니다.
+
 ```javascript
 // 자식 컴포넌트
 
@@ -483,17 +488,25 @@ const RefExample = forwardRef((props, ref) => {
 export default RefExample;
 ```
 
+- `forwardRef`  
+  [공식 문서 설명](https://ko.reactjs.org/docs/forwarding-refs.html)
+
+- `useImperativeHandle`  
+  [공식 문서 설명](https://ko.reactjs.org/docs/hooks-reference.html#useimperativehandle)
+
 ```javascript
 // 부모 컴포넌트
 
-import { useRef, useCallback } from "react";
+import { useRef } from "react";
 import RefExample from "./components/RefExample";
 
 function App() {
   const scrollBox = useRef();
-  const handleDown = useCallback(() => {
+
+  const handleDown = () => {
     scrollBox.current.scrollToBottom();
-  });
+  };
+
   return (
     <>
       <RefExample ref={scrollBox} />
@@ -505,4 +518,5 @@ function App() {
 export default App;
 ```
 
-> 설명 추가는 좀 이따가
+> [참고 블로그 1](https://velog.io/@taylorkwon92/TIL-%EB%B6%80%EB%AA%A8-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%97%90%EC%84%9C-%EC%9E%90%EC%8B%9D-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%9D%98-%ED%95%A8%EC%88%98-%ED%98%B8%EC%B6%9C%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)  
+> [참고 블로그 2](https://qnrjs42.blog/react/parent-call-child-func-with-hooks)
