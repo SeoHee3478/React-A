@@ -306,3 +306,201 @@ export default WriteMessage;
 </details>
 
 ---
+
+## 5장: ref.DOM 에 이름 달기
+
+### ref 는 언제 사용?
+
+`순수 자바스크립트` 를 사용 할 때 특정 DOM 을 선택해야 하는 상황에서는 `getElementById`, `querySelector` 와 같은 `DOM Selector 함수` 를 사용해서 `DOM` 을 선택합니다.
+
+`리액트` 에서도 가끔씩 `DOM` 을 **직접** 선택해야 하는 상황이 있을 수 있습니다.
+예를 들면
+
+- 특정 `input` 에 포커스 주기
+- 스크롤 박스 조작하기
+- `Canvas` 요소에 그림 그리기 등
+
+이럴 때 리액트에서는 `ref` 라는 것을 사용합니다.
+
+---
+
+### ref 사용방법
+
+`ref` 를 사용하는 방법은 총 3가지 입니다.
+원하는 방법을 골라서 사용하면 되지만 최근에는 함수형 컴포넌트와 함께 `hooks` 를 많이 쓰는 추세입니다.
+
+- **함수형 컴포넌트: `useRef`**
+
+```javascript
+import React, { useRef } from "react";
+
+const RefExample = () => {
+  const input = useRef();
+
+  const handleFocus = () => {
+    input.current.focus();
+  };
+
+  return (
+    <div>
+      <input ref={input} />
+      <button onClick={handleFocus}>FOCUS!</button>
+    </div>
+  );
+};
+
+export default RefExample;
+```
+
+- 클래스형 컴포넌트: `React.createRef`, `콜백함수`
+
+  - `React.createRef`
+
+  ```javascript
+  import React, { Component } from "react";
+
+  class RefExample extends Component {
+    input = React.createRef();
+
+    handleFocus = () => {
+      this.input.current.focus();
+    };
+
+    render() {
+      return (
+        <div>
+          <input ref={this.input} />
+          <button onClick={this.handleFocus}>FOCUS!</button>
+        </div>
+      );
+    }
+  }
+
+  export default RefExample;
+  ```
+
+  - `콜백함수`
+
+  ```javascript
+  import React, { Component } from "react";
+
+  class RefExample extends Component {
+    handleFocus = () => {
+      this.input.focus();
+    };
+
+    render() {
+      return (
+        <div>
+          <input ref={(ref) => (this.input = ref)} />
+          <button onClick={this.handleFocus}>FOCUS!</button>
+        </div>
+      );
+    }
+  }
+
+  export default RefExample;
+  ```
+
+---
+
+### 컴포넌트에 ref 달기
+
+컴포넌트에도 `ref` 를 달 수가 있는데요, 이렇게 하면 컴포넌트 내부의 메소드 및 멤버 변수에도 접근할 수 있습니다.
+
+우선 스크롤 박스를 만들어보겠습니다.
+
+```javascript
+import React, { useRef } from "react";
+
+const RefExample = () => {
+  const box = useRef();
+
+  const style = {
+    border: "1px solid black",
+    height: "300px",
+    width: "300px",
+    overflow: "auto",
+    position: "relative",
+  };
+
+  const innerStyle = {
+    width: "100%",
+    height: "650px",
+    background: "linear-gradient(white,black)",
+  };
+
+  return (
+    <div style={style} ref={box}>
+      <div style={innerStyle} />
+    </div>
+  );
+};
+
+export default RefExample;
+```
+
+<img src="https://user-images.githubusercontent.com/89551626/133944321-140cc920-9492-40ee-a1de-29d31a5da173.png">
+
+```javascript
+// 자식 컴포넌트
+
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+
+const RefExample = forwardRef((props, ref) => {
+  const box = useRef();
+
+  const style = {
+    border: "1px solid black",
+    height: "300px",
+    width: "300px",
+    overflow: "auto",
+    position: "relative",
+  };
+
+  const innerStyle = {
+    width: "100%",
+    height: "650px",
+    background: "linear-gradient(white,black)",
+  };
+
+  useImperativeHandle(ref, () => ({
+    scrollToBottom() {
+      const { scrollHeight, clientHeight } = box.current;
+      box.current.scrollTop = scrollHeight - clientHeight;
+    },
+  }));
+
+  return (
+    <div style={style} ref={box}>
+      <div style={innerStyle} />
+    </div>
+  );
+});
+
+export default RefExample;
+```
+
+```javascript
+// 부모 컴포넌트
+
+import { useRef, useCallback } from "react";
+import RefExample from "./components/RefExample";
+
+function App() {
+  const scrollBox = useRef();
+  const handleDown = useCallback(() => {
+    scrollBox.current.scrollToBottom();
+  });
+  return (
+    <>
+      <RefExample ref={scrollBox} />
+      <button onClick={handleDown}>맨 밑으로</button>
+    </>
+  );
+}
+
+export default App;
+```
+
+> 설명 추가는 좀 이따가
